@@ -1,22 +1,31 @@
 package com.gaurang.myproject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.messaging.Message;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Service;
-
-@Service
+import org.springframework.stereotype.Component;
+@Component
 public class Listener {
+	
+	
+	@RabbitListener(queues="queue1")
+    public void Fanoutforq1recievedMessage(String msg) {
+        System.out.println("Queue name is :  queue1");
 
-    private static final Logger log = LoggerFactory.getLogger(Listener.class);
-    private final static String myq="my-queue";
-    @RabbitListener(queues = myq)
-    public void consumeDefaultMessage(String message) {
-    	 
-    	System.out.println(message);
-        log.info("Receiving the message from producer application", message);
-        
-        System.out.println("message recieved from listener");
+        System.out.println("Recieved Message: "  + msg);
     }
+	@RabbitListener(queues="queue2")
+    public void Fanoutforq2recievedMessage(String msg) {
+        System.out.println("Queue name is :  queue2");
+
+        System.out.println("Recieved Message: "  + msg);
+    }
+	
+	@RabbitListener(queues="wing")
+    public void DirectMessage(String msg) {
+        System.out.println("Queue name is :  wing");
+
+        System.out.println("Recieved Message: "  + msg);
+    }
+	
+	
 }
